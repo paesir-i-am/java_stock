@@ -1,6 +1,7 @@
 package ui;
 
 import api.StockAPIClient;
+import model.StockInfo;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,21 +19,21 @@ public class SearchPanel extends JPanel {
 
     setLayout(new BorderLayout());
 
-    //search input field
+    // Search input field
     searchField = new JTextField();
     searchField.addKeyListener(new KeyAdapter() {
       @Override
       public void keyReleased(KeyEvent e) {
         String query = searchField.getText();
-        if(!query.isEmpty()) {
+        if (!query.isEmpty()) {
           updateSearchResults(query);
-        }else {
+        } else {
           searchResults.removeAllItems();
         }
       }
     });
 
-    //dropdown search results
+    // Dropdown search results
     searchResults = new JComboBox<>();
     searchResults.setPreferredSize(new Dimension(200, 25));
 
@@ -41,13 +42,13 @@ public class SearchPanel extends JPanel {
   }
 
   private void updateSearchResults(String query) {
-    //get result using API
-    List<String> results = apiClient.searchStocks(query);
+    // Get result using API
+    List<StockInfo> results = apiClient.searchStocks(query);
 
-    //update the results to comboBox
+    // Update the results to comboBox
     searchResults.removeAllItems();
-    for(String result : results){
-      searchResults.addItem(result);
+    for (StockInfo stock : results) {
+      searchResults.addItem(stock.getIsuNm());  // 예시로 종목명만 표시
     }
   }
 }

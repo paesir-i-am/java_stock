@@ -17,7 +17,7 @@ public class AuthClient {
       String body = "grant_type=client_credentials&apikey=" + apiKey;
       JSONObject response = sendPostRequest(TOKEN_URL, body, "application/x-www-form-urlencoded");
 
-      System.out.println("token 발급 성공 제발제밟제랍ㅈ랍ㅈㄹ");
+      System.out.println("token 발급 성공");
       System.out.println("response: " + response.toString());
 
       String accessToken = response.optString("access_token","");
@@ -32,7 +32,7 @@ public class AuthClient {
       e.printStackTrace();
 
 
-      System.out.println("token 발급실패 ㅡㅔㅁㅂ두해ㅔㅂ두헵");
+      System.out.println("token 발급실패");
       return null;
     }
   }
