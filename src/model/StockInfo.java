@@ -17,7 +17,21 @@ public class StockInfo {
   private String mktCap;  //시가총액
   private String listShrs;  //상장주식수
 
+  @Override
+  public String toString() {
+    return String.format(
+        "BAS_DD (기준일자): %s, ISU_CD (종목코드): %s, ISU_NM (종목명): %s, MKT_NM (시장구분): %s, SECT_TP_NM (소속부): %s, " +
+            "TDD_CLSPRC (종가): %s, CMPPREVDD_PRC (대비): %s, FLUC_RT (등락률): %s, TDD_OPNPRC (시가): %s, TDD_HGPRC (고가): %s, " +
+            "TDD_LWPRC (저가): %s, ACC_TRDVOL (거래량): %s, ACC_TRDVAL (거래대금): %s, MKTCAP (시가총액): %s, LIST_SHRS (상장주식수): %s",
+        basDd, isuCd, isuNm, mktNm, sectTpNm, tddClsPrc, cmpPrevDdPrc, flucRt, tddOpnPrc, tddHgPrc, tddLwPrc, accTrdVol, accTrdVal, mktCap, listShrs
+    );
+  }
+
+  public String toCSVString() {
+    return String.join(",", basDd, isuCd, isuNm, mktNm, sectTpNm, tddClsPrc, cmpPrevDdPrc, flucRt, tddOpnPrc, tddHgPrc, tddLwPrc, accTrdVol, accTrdVal, mktCap, listShrs);
+  }
   // 생성자, getter 및 setter
+
   public StockInfo(String basDd, String isuCd, String isuNm, String mktNm, String sectTpNm, String tddClsPrc, String cmpPrevDdPrc, String flucRt, String tddOpnPrc, String tddHgPrc, String tddLwPrc, String accTrdVol, String accTrdVal, String mktCap, String listShrs) {
     this.basDd = basDd;
     this.isuCd = isuCd;
@@ -34,16 +48,6 @@ public class StockInfo {
     this.accTrdVal = accTrdVal;
     this.mktCap = mktCap;
     this.listShrs = listShrs;
-  }
-
-  @Override
-  public String toString() {
-    return String.format(
-        "BAS_DD (기준일자): %s, ISU_CD (종목코드): %s, ISU_NM (종목명): %s, MKT_NM (시장구분): %s, SECT_TP_NM (소속부): %s, " +
-            "TDD_CLSPRC (종가): %s, CMPPREVDD_PRC (대비): %s, FLUC_RT (등락률): %s, TDD_OPNPRC (시가): %s, TDD_HGPRC (고가): %s, " +
-            "TDD_LWPRC (저가): %s, ACC_TRDVOL (거래량): %s, ACC_TRDVAL (거래대금): %s, MKTCAP (시가총액): %s, LIST_SHRS (상장주식수): %s",
-        basDd, isuCd, isuNm, mktNm, sectTpNm, tddClsPrc, cmpPrevDdPrc, flucRt, tddOpnPrc, tddHgPrc, tddLwPrc, accTrdVol, accTrdVal, mktCap, listShrs
-    );
   }
 
   public String getBasDd() {
