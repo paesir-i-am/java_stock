@@ -30,7 +30,6 @@ public class DataStorage {
 
       // 파일이 없는 경우 데이터를 수집
       if (!file.exists()) {
-        System.out.println("파일이 없습니다. 데이터 수집 중: " + fileName);
         collector.collectAndSaveData(date);
         file = new File(fileName);  // 파일이 새로 생겼는지 확인
       }
@@ -38,11 +37,44 @@ public class DataStorage {
       // 파일이 존재할 경우 로드
       if (file.exists()) {
         dataList.addAll(loadDataFromCSV(fileName));
-        System.out.println("파일을 성공적으로 로드했습니다: " + fileName);
       } else {
         System.out.println("비영업일로 데이터가 없습니다: " + fileName);
       }
     }
+    return dataList;
+  }
+
+  // 가장 최근의 CSV 데이터를 로드
+  public List<StockInfo> loadLatestData() {
+    List<StockInfo> dataList = new ArrayList<>();
+    File directory = new File("data");
+    File[] files = directory.listFiles((dir, name) -> name.endsWith(".csv"));
+
+    if (files == null || files.length == 0) {
+      System.out.println("데이터 파일이 없습니다.");
+      return dataList;
+    }
+
+    // 가장 최근의 파일 찾기
+    File latestFile = files[0];
+    for (File file : files) {
+      if (file.lastModified() > latestFile.lastModified()) {
+        latestFile = file;
+      }
+    }
+
+    // 가장 최근 파일의 데이터 읽기
+    try (BufferedReader reader = new BufferedReader(new FileReader(latestFile))) {
+      String line = reader.readLine(); // 첫 줄 헤더 건너뜀
+      while ((line = reader.readLine()) != null) {
+        StockInfo stockInfo = parseCSVLineToStockInfo(line);
+        dataList.add(stockInfo);
+      }
+      System.out.println("가장 최근의 데이터 파일을 로드했습니다: " + latestFile.getName());
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
     return dataList;
   }
 

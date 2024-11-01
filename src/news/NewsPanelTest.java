@@ -1,4 +1,6 @@
-package ui;
+package news;
+
+import ui.NewsPanel;
 
 import javax.swing.*;
 

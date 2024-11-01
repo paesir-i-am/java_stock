@@ -17,6 +17,8 @@ public class StockInfo {
   private String mktCap;  //시가총액
   private String listShrs;  //상장주식수
 
+  private double score;
+
   @Override
   public String toString() {
     return String.format(
@@ -48,6 +50,13 @@ public class StockInfo {
     this.accTrdVal = accTrdVal;
     this.mktCap = mktCap;
     this.listShrs = listShrs;
+  }
+
+  public double getScore() {
+    return score;
+  }
+  public void setScore(double score) {
+    this.score = score;
   }
 
   public String getBasDd() {

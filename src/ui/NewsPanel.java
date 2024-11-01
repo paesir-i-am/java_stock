@@ -1,15 +1,11 @@
 package ui;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
+import news.NewsFetcher;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 public class NewsPanel extends JPanel {
@@ -22,7 +18,6 @@ public class NewsPanel extends JPanel {
     newsListModel = new DefaultListModel<>();
     newsList = new JList<>(newsListModel);
     newsList.setCellRenderer(new NewsCellRenderer());  // 커스텀 렌더러 설정
-    newsUrls = new ArrayList<>();
 
     newsList.addMouseListener(new MouseAdapter() {
       @Override
@@ -38,27 +33,15 @@ public class NewsPanel extends JPanel {
     loadNews("주식");
   }
 
-  // 네이버 뉴스 스크래핑
+  // 뉴스 로드 메서드
   public void loadNews(String query) {
-    try {
-      String searchQuery = query + " 뉴스";
-      Document doc = Jsoup.connect("https://search.naver.com/search.naver?query=" + searchQuery)
-          .userAgent("Mozilla/5.0").get();
+    NewsFetcher newsFetcher = new NewsFetcher();
+    List<NewsFetcher.NewsItem> newsItems = newsFetcher.fetchNews(query);
 
-      Elements newsElements = doc.select(".news_tit");
-      Elements summaries = doc.select(".news_dsc");
-
-      for (int i = 0; i < newsElements.size(); i++) {
-        String title = newsElements.get(i).text();
-        String summary = summaries.get(i).text();
-        String url = newsElements.get(i).absUrl("href");
-
-        newsListModel.addElement("<html><b>" + title + "</b><br><p>" + summary + "</p></html>");
-        newsUrls.add(url);
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
+    for (NewsFetcher.NewsItem item : newsItems) {
+      newsListModel.addElement("<html><b>" + item.getTitle() + "</b><br><p>" + item.getSummary() + "</p></html>");
     }
+    newsUrls = newsFetcher.getNewsUrls();
   }
 
   // 웹 페이지 열기

@@ -20,12 +20,14 @@ public class StockAPIClient {
     List<StockInfo> stockList = new ArrayList<>();
     String accessToken = AuthClient.getAccessToken();
 
+/*
     if (accessToken == null) {
       System.out.println("APIClient java - token이 null");
       return stockList;
     }
+*/
 
-    System.out.println("APIClient java - token: " + accessToken);
+//    System.out.println("APIClient java - token: " + accessToken);
 
     try {
       String fullUrl = API_URL + "?basDd=" + basDd;
@@ -42,7 +44,7 @@ public class StockAPIClient {
       }
       reader.close();
 
-      System.out.println("응답 데이터 : " + result.toString());
+//      System.out.println("응답 데이터 : " + result.toString());
 
       JSONObject jsonObject = new JSONObject(result.toString());
       JSONArray jsonArray = jsonObject.getJSONArray("OutBlock_1");

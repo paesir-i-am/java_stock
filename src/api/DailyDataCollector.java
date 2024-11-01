@@ -42,7 +42,7 @@ public class DailyDataCollector {
       for (StockInfo stock : stockData) {
         writer.write(stock.toCSVString() + "\n");  // StockInfo 클래스에 toCSVString 메서드 추가 필요
       }
-      System.out.println("데이터 저장 완료: " + fileName);
+//      System.out.println("데이터 저장 완료: " + fileName);
     } catch (IOException e) {
       e.printStackTrace();
     }
